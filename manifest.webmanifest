@@ -1,12 +1,12 @@
 {
-  "name": "CAIN PWA Starter",
-  "short_name": "CAIN",
+  "name": "CAIN Neon Sheet",
+  "short_name": "NeonSheet",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f2efe8",
-  "theme_color": "#1f2a44",
-  "description": "A minimal Progressive Web App starter hosted on GitHub Pages.",
+  "background_color": "#04070d",
+  "theme_color": "#07121f",
+  "description": "Mobile-first cyberpunk TTRPG character sheet PWA scaffold.",
   "icons": [
     {
       "src": "./icons/icon.svg",

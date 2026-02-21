@@ -2,19 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1f2a44">
-  <title>CAIN PWA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07121f">
+  <title>CAIN Neon Sheet</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="card">
-    <h1>CAIN</h1>
-    <p>Progressive Web App starter hosted on GitHub Pages.</p>
-    <p id="status" class="status">Checking connection...</p>
-    <button id="installBtn" type="button">Install app</button>
+  <div class="bg-raster" aria-hidden="true"></div>
+  <main class="app-shell">
+    <header class="sheet-header fx-target" data-fx-target="hud" data-fx-label="HUD Header">
+      <p class="eyebrow">Cyberpunk Tactical Dossier</p>
+      <h1 id="characterName">Nyx "Ghostline" Voss</h1>
+      <p id="characterMeta" class="meta-line">Netrunner // Street Rank 5 // Night City</p>
+      <div class="header-chips">
+        <span class="chip" id="threatLevel">Threat: Orange</span>
+        <span class="chip" id="sheetStatus">Sync: Local Cache</span>
+      </div>
+    </header>
+
+    <section class="quick-stats">
+      <article class="stat-panel fx-target" data-fx-target="vitals" data-fx-label="Vitals Panel">
+        <h2>Vitals</h2>
+        <div class="meter-block">
+          <div class="meter-label">
+            <span>HP</span>
+            <span id="hpValue">34 / 40</span>
+          </div>
+          <div class="meter-track"><span id="hpMeter"></span></div>
+        </div>
+        <div class="meter-block">
+          <div class="meter-label">
+            <span>Stun</span>
+            <span id="stunValue">11 / 14</span>
+          </div>
+          <div class="meter-track meter-stun"><span id="stunMeter"></span></div>
+        </div>
+        <div class="stat-row">
+          <span id="armorValue">Armor 7</span>
+          <span id="humanityValue">Humanity 58</span>
+        </div>
+      </article>
+
+      <article class="stat-panel fx-target" data-fx-target="combat" data-fx-label="Combat Panel">
+        <h2>Combat Pulse</h2>
+        <div class="stat-row">
+          <span>Initiative</span>
+          <strong id="initiativeValue">14</strong>
+        </div>
+        <div class="stat-row">
+          <span>Evasion</span>
+          <strong id="evasionValue">8</strong>
+        </div>
+        <div class="stat-row">
+          <span>Cyberdeck Load</span>
+          <strong id="deckLoadValue">72%</strong>
+        </div>
+        <div id="conditionTags" class="tag-row"></div>
+      </article>
+    </section>
+
+    <nav class="tab-nav" aria-label="Sheet tabs">
+      <button class="tab-btn is-active" type="button" data-tab-btn="overview">Overview</button>
+      <button class="tab-btn" type="button" data-tab-btn="combat">Combat</button>
+      <button class="tab-btn" type="button" data-tab-btn="cyberware">Cyberware</button>
+      <button class="tab-btn" type="button" data-tab-btn="notes">Notes</button>
+    </nav>
+
+    <section class="tab-panel is-active" data-tab-panel="overview">
+      <article class="panel fx-target" data-fx-target="identity" data-fx-label="Identity Panel">
+        <h3>Identity</h3>
+        <dl id="identityList" class="data-list"></dl>
+      </article>
+      <article class="panel fx-target" data-fx-target="skills" data-fx-label="Skills Panel">
+        <h3>Top Skills</h3>
+        <ul id="skillsList" class="skill-list"></ul>
+      </article>
+    </section>
+
+    <section class="tab-panel" data-tab-panel="combat">
+      <article class="panel fx-target" data-fx-target="weapons" data-fx-label="Weapons Panel">
+        <h3>Weapons</h3>
+        <ul id="weaponsList" class="weapon-list"></ul>
+      </article>
+      <article class="panel fx-target" data-fx-target="tactics" data-fx-label="Tactics Panel">
+        <h3>Tactical Notes</h3>
+        <ul id="tacticsList" class="note-list"></ul>
+      </article>
+    </section>
+
+    <section class="tab-panel" data-tab-panel="cyberware">
+      <article class="panel fx-target" data-fx-target="cyberware" data-fx-label="Cyberware Panel">
+        <h3>Installed Cyberware</h3>
+        <ul id="cyberwareList" class="note-list"></ul>
+      </article>
+      <article class="panel fx-target" data-fx-target="heatmap" data-fx-label="Heatmap Panel">
+        <h3>Body Load Heatmap</h3>
+        <div id="heatmapGrid" class="heatmap-grid"></div>
+      </article>
+    </section>
+
+    <section class="tab-panel" data-tab-panel="notes">
+      <article class="panel fx-target" data-fx-target="session" data-fx-label="Session Notes Panel">
+        <h3>Session Log</h3>
+        <textarea id="sessionNotes" rows="9"></textarea>
+      </article>
+    </section>
+
+    <aside class="effects-lab panel">
+      <h3>Signal Effects</h3>
+      <p class="lab-caption">Apply static and interference effects to specific UI panels.</p>
+      <label for="fxTarget">Target element</label>
+      <select id="fxTarget"></select>
+      <label for="fxType">Effect style</label>
+      <select id="fxType">
+        <option value="none">None</option>
+        <option value="static">TV Static</option>
+        <option value="scanlines">Scanlines</option>
+        <option value="glitch">Glitch Shift</option>
+      </select>
+      <div class="range-wrap">
+        <label for="fxIntensity">Intensity</label>
+        <output id="fxIntensityValue" for="fxIntensity">2</output>
+      </div>
+      <input id="fxIntensity" type="range" min="1" max="5" step="1" value="2">
+      <div class="lab-actions">
+        <button id="applyFxBtn" type="button">Apply Effect</button>
+        <button id="clearFxBtn" type="button" class="ghost">Clear Target</button>
+      </div>
+    </aside>
+
+    <footer class="app-footer">
+      <p id="status">Checking connection...</p>
+      <button id="installBtn" type="button">Install app</button>
+    </footer>
   </main>
   <script src="app.js" defer></script>
 </body>
