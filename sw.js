@@ -1,11 +1,14 @@
-const CACHE_NAME = "cain-neon-sheet-v2";
+const CACHE_NAME = "cain-exorcist-ledger-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
-  "./icons/icon.svg"
+  "./icons/icon.svg",
+  "./Templates/CAIN-Exorcist-ID-Card-Blank.png",
+  "./Examples/Comfort-ID.png",
+  "./Character Art/Carve.png"
 ];
 
 self.addEventListener("install", (event) => {

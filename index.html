@@ -3,64 +3,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#07121f">
-  <title>CAIN Neon Sheet</title>
+  <meta name="theme-color" content="#0b0a0a">
+  <title>CAIN Exorcist Ledger</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="bg-raster" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
   <main class="app-shell">
     <header class="sheet-header fx-target" data-fx-target="hud" data-fx-label="HUD Header">
-      <p class="eyebrow">Cyberpunk Tactical Dossier</p>
-      <h1 id="characterName">Nyx "Ghostline" Voss</h1>
-      <p id="characterMeta" class="meta-line">Netrunner // Street Rank 5 // Night City</p>
+      <p class="eyebrow">Order Of Saint Cyprian</p>
+      <h1 id="characterName">Sister Miriam Vale</h1>
+      <p id="characterMeta" class="meta-line">Field Exorcist III // Ruin District Diocese</p>
       <div class="header-chips">
-        <span class="chip" id="threatLevel">Threat: Orange</span>
-        <span class="chip" id="sheetStatus">Sync: Local Cache</span>
+        <span class="chip" id="threatLevel">Manifest Class IV</span>
+        <span class="chip" id="sheetStatus">Vigil Channel Secure</span>
       </div>
     </header>
 
     <section class="quick-stats">
       <article class="stat-panel fx-target" data-fx-target="vitals" data-fx-label="Vitals Panel">
-        <h2>Vitals</h2>
+        <h2>Condition</h2>
         <div class="meter-block">
           <div class="meter-label">
-            <span>HP</span>
-            <span id="hpValue">34 / 40</span>
+            <span>Vitality</span>
+            <span id="healthValue">31 / 38</span>
           </div>
-          <div class="meter-track"><span id="hpMeter"></span></div>
+          <div class="meter-track"><span id="healthMeter"></span></div>
         </div>
         <div class="meter-block">
           <div class="meter-label">
-            <span>Stun</span>
-            <span id="stunValue">11 / 14</span>
+            <span>Corruption</span>
+            <span id="corruptionValue">9 / 14</span>
           </div>
-          <div class="meter-track meter-stun"><span id="stunMeter"></span></div>
+          <div class="meter-track meter-corruption"><span id="corruptionMeter"></span></div>
         </div>
         <div class="stat-row">
-          <span id="armorValue">Armor 7</span>
-          <span id="humanityValue">Humanity 58</span>
+          <span id="wardsValue">Wards 6</span>
+          <span id="sanctityValue">Sanctity 67</span>
         </div>
       </article>
 
       <article class="stat-panel fx-target" data-fx-target="combat" data-fx-label="Combat Panel">
-        <h2>Combat Pulse</h2>
+        <h2>Field Response</h2>
         <div class="stat-row">
-          <span>Initiative</span>
-          <strong id="initiativeValue">14</strong>
+          <span>Reflex</span>
+          <strong id="reflexValue">12</strong>
         </div>
         <div class="stat-row">
-          <span>Evasion</span>
-          <strong id="evasionValue">8</strong>
+          <span>Resolve</span>
+          <strong id="resolveValue">10</strong>
         </div>
         <div class="stat-row">
-          <span>Cyberdeck Load</span>
-          <strong id="deckLoadValue">72%</strong>
+          <span>Possession Risk</span>
+          <strong id="riskValue">34%</strong>
         </div>
         <div id="conditionTags" class="tag-row"></div>
       </article>
@@ -68,54 +65,79 @@
 
     <nav class="tab-nav" aria-label="Sheet tabs">
       <button class="tab-btn is-active" type="button" data-tab-btn="overview">Overview</button>
-      <button class="tab-btn" type="button" data-tab-btn="combat">Combat</button>
-      <button class="tab-btn" type="button" data-tab-btn="cyberware">Cyberware</button>
-      <button class="tab-btn" type="button" data-tab-btn="notes">Notes</button>
+      <button class="tab-btn" type="button" data-tab-btn="rites">Rites</button>
+      <button class="tab-btn" type="button" data-tab-btn="arsenal">Arsenal</button>
+      <button class="tab-btn" type="button" data-tab-btn="journal">Journal</button>
     </nav>
 
     <section class="tab-panel is-active" data-tab-panel="overview">
+      <article class="panel fx-target" data-fx-target="idcard" data-fx-label="ID Card Panel">
+        <h3>Exorcist Identification</h3>
+        <div class="id-card-shell">
+          <img
+            class="id-card-template"
+            src="Templates/CAIN-Exorcist-ID-Card-Blank.png"
+            alt="Blank CAIN Exorcist ID card template"
+          >
+          <img id="idPhoto" class="id-photo" src="Character Art/Carve.png" alt="Exorcist portrait">
+          <p id="idName" class="id-fill id-name"></p>
+          <p id="idXid" class="id-fill id-xid"></p>
+          <p id="idBlsp" class="id-fill id-blsp"></p>
+          <p id="idAgdn" class="id-fill id-agdn"></p>
+          <p id="idSex" class="id-fill id-sex"></p>
+          <p id="idHeight" class="id-fill id-height"></p>
+          <p id="idWeight" class="id-fill id-weight"></p>
+          <p id="idEyes" class="id-fill id-eyes"></p>
+          <p id="idHair" class="id-fill id-hair"></p>
+          <p id="idRating" class="id-rating"></p>
+        </div>
+        <details class="id-reference">
+          <summary>Reference Filled Example</summary>
+          <img src="Examples/Comfort-ID.png" alt="Filled example exorcist ID card">
+        </details>
+      </article>
       <article class="panel fx-target" data-fx-target="identity" data-fx-label="Identity Panel">
-        <h3>Identity</h3>
+        <h3>Identity Record</h3>
         <dl id="identityList" class="data-list"></dl>
       </article>
-      <article class="panel fx-target" data-fx-target="skills" data-fx-label="Skills Panel">
-        <h3>Top Skills</h3>
-        <ul id="skillsList" class="skill-list"></ul>
+      <article class="panel fx-target" data-fx-target="traits" data-fx-label="Traits Panel">
+        <h3>Temperaments</h3>
+        <ul id="traitsList" class="note-list"></ul>
       </article>
     </section>
 
-    <section class="tab-panel" data-tab-panel="combat">
-      <article class="panel fx-target" data-fx-target="weapons" data-fx-label="Weapons Panel">
-        <h3>Weapons</h3>
-        <ul id="weaponsList" class="weapon-list"></ul>
+    <section class="tab-panel" data-tab-panel="rites">
+      <article class="panel fx-target" data-fx-target="rites" data-fx-label="Rites Panel">
+        <h3>Prepared Rites</h3>
+        <ul id="ritesList" class="skill-list"></ul>
       </article>
-      <article class="panel fx-target" data-fx-target="tactics" data-fx-label="Tactics Panel">
-        <h3>Tactical Notes</h3>
-        <ul id="tacticsList" class="note-list"></ul>
+      <article class="panel fx-target" data-fx-target="sanctions" data-fx-label="Sanctions Panel">
+        <h3>Sanctions And Restrictions</h3>
+        <ul id="sanctionList" class="note-list"></ul>
       </article>
     </section>
 
-    <section class="tab-panel" data-tab-panel="cyberware">
-      <article class="panel fx-target" data-fx-target="cyberware" data-fx-label="Cyberware Panel">
-        <h3>Installed Cyberware</h3>
-        <ul id="cyberwareList" class="note-list"></ul>
+    <section class="tab-panel" data-tab-panel="arsenal">
+      <article class="panel fx-target" data-fx-target="arsenal" data-fx-label="Arsenal Panel">
+        <h3>Arsenal And Relics</h3>
+        <ul id="arsenalList" class="weapon-list"></ul>
       </article>
-      <article class="panel fx-target" data-fx-target="heatmap" data-fx-label="Heatmap Panel">
-        <h3>Body Load Heatmap</h3>
+      <article class="panel fx-target" data-fx-target="wardgrid" data-fx-label="Ward Grid Panel">
+        <h3>Ward Circuit Pressure</h3>
         <div id="heatmapGrid" class="heatmap-grid"></div>
       </article>
     </section>
 
-    <section class="tab-panel" data-tab-panel="notes">
-      <article class="panel fx-target" data-fx-target="session" data-fx-label="Session Notes Panel">
-        <h3>Session Log</h3>
+    <section class="tab-panel" data-tab-panel="journal">
+      <article class="panel fx-target" data-fx-target="journal" data-fx-label="Journal Panel">
+        <h3>Case Journal</h3>
         <textarea id="sessionNotes" rows="9"></textarea>
       </article>
     </section>
 
     <aside class="effects-lab panel">
-      <h3>Signal Effects</h3>
-      <p class="lab-caption">Apply static and interference effects to specific UI panels.</p>
+      <h3>Manifestation Effects</h3>
+      <p class="lab-caption">Apply distortion and static artifacts to specific dossier elements.</p>
       <label for="fxTarget">Target element</label>
       <select id="fxTarget"></select>
       <label for="fxType">Effect style</label>
@@ -139,7 +161,7 @@
 
     <footer class="app-footer">
       <p id="status">Checking connection...</p>
-      <button id="installBtn" type="button">Install app</button>
+      <button id="installBtn" type="button">Install PWA</button>
     </footer>
   </main>
   <svg class="fx-defs" aria-hidden="true" focusable="false">

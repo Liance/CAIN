@@ -1,64 +1,90 @@
-const characterSheet = {
-  name: 'Nyx "Ghostline" Voss',
-  role: "Netrunner",
-  rank: 5,
-  city: "Night City",
-  threatLevel: "Orange",
-  syncStatus: "Local Cache",
+const exorcistSheet = {
+  name: "Sister Miriam Vale",
+  order: "Order of Saint Cyprian",
+  rank: "Field Exorcist III",
+  diocese: "Ruin District Diocese",
+  threatLevel: "Manifest Class IV",
+  syncStatus: "Vigil Channel Secure",
   vitals: {
-    hp: { current: 34, max: 40 },
-    stun: { current: 11, max: 14 },
-    armor: 7,
-    humanity: 58
+    health: { current: 31, max: 38 },
+    corruption: { current: 9, max: 14 },
+    wards: 6,
+    sanctity: 67
   },
-  combat: {
-    initiative: 14,
-    evasion: 8,
-    deckLoad: 72,
-    conditions: ["Wired Reflexes", "Data Ghost", "Low Profile"]
+  response: {
+    reflex: 12,
+    resolve: 10,
+    risk: 34,
+    conditions: ["Stigmata Echo", "Nocturnal Watch", "Sanctioned Blade"]
   },
   identity: [
-    ["Alias", "Ghostline"],
-    ["Crew", "Null Meridian"],
-    ["Origin", "Corporate Defector"],
-    ["Cred", "8,200 eb"],
-    ["Lifestyle", "Container Safehouse"]
+    ["Call Sign", "Ash Psalter"],
+    ["License", "X-77-031"],
+    ["Bloodline", "Vale"],
+    ["Parish", "Saint Corrine Annex"],
+    ["Confessor", "Fr. Calder"]
   ],
-  skills: [
-    { name: "Interface", level: 9 },
-    { name: "Stealth", level: 8 },
-    { name: "Electronic Security", level: 8 },
-    { name: "Handgun", level: 6 },
-    { name: "Persuasion", level: 5 }
+  traits: [
+    "Speaks liturgy in dead radio frequencies.",
+    "Avoids mirrors after sundown.",
+    "Records every exorcism in graphite, never ink."
   ],
-  weapons: [
-    { name: "M-76 Rail Pistol", damage: "3d6", ammo: "11/12", tags: ["Smart", "Concealable"] },
-    { name: "Monowire", damage: "2d6 + bleed", ammo: "N/A", tags: ["Melee", "Silent"] },
-    { name: "Neuroflash Grenade", damage: "Stun + blind", ammo: "x2", tags: ["Area", "Disposable"] }
+  rites: [
+    { name: "Rite of Severance", potency: 86, cost: "2 strain" },
+    { name: "Psalm of Iron Sleep", potency: 71, cost: "3 strain" },
+    { name: "Mercy Circuit", potency: 63, cost: "1 strain" },
+    { name: "Bell of Cinders", potency: 58, cost: "4 strain" }
   ],
-  tactics: [
-    "Open with jammer pulse, then breach camera loop.",
-    "Prioritize enemy netrunner before line troops.",
-    "Use monowire only when cover break is guaranteed."
+  sanctions: [
+    "Forbidden to invoke Ninth Litany without witness.",
+    "No solo entry into Cathedral Catacombs Wing B.",
+    "Confession interval mandatory every 48 hours."
   ],
-  cyberware: [
-    "Kiroshi Optics Mk4 (Threat tagging)",
-    "Sandevistan Booster (Burst movement)",
-    "Subdermal Mesh (Tier II plating)",
-    "Neural Coprocessor (Dual daemon slot)"
+  arsenal: [
+    {
+      name: "Consecrated Revolver",
+      detail: "2d8 radiant",
+      capacity: "5/6",
+      tags: ["Silvered", "Relic", "Loud"]
+    },
+    {
+      name: "Thorn Rosary Chain",
+      detail: "2d6 bind",
+      capacity: "N/A",
+      tags: ["Melee", "Holy", "Bleed"]
+    },
+    {
+      name: "Votive Salt Ampoule",
+      detail: "Area ward",
+      capacity: "x3",
+      tags: ["Thrown", "Barrier", "Single Use"]
+    }
   ],
-  heatmap: [
-    { label: "Neural", heat: 3, value: "88%" },
-    { label: "Optic", heat: 2, value: "61%" },
-    { label: "Arms", heat: 2, value: "54%" },
-    { label: "Torso", heat: 3, value: "79%" },
-    { label: "Spine", heat: 2, value: "67%" },
-    { label: "Legs", heat: 1, value: "43%" },
-    { label: "Immune", heat: 1, value: "39%" },
-    { label: "Biomonitor", heat: 2, value: "58%" }
+  wardGrid: [
+    { label: "Skull Seal", heat: 2, value: "64%" },
+    { label: "Throat Sigil", heat: 1, value: "42%" },
+    { label: "Chest Cross", heat: 3, value: "82%" },
+    { label: "Right Palm", heat: 2, value: "59%" },
+    { label: "Left Palm", heat: 2, value: "57%" },
+    { label: "Spine Mark", heat: 3, value: "88%" },
+    { label: "Knee Nails", heat: 1, value: "34%" },
+    { label: "Ankle Thread", heat: 1, value: "31%" }
   ],
-  sessionNotes:
-    "Session 12:\n- Stole shard fragment from Arasaka courier.\n- Burned one false identity at Harbor 9.\n- Need to source fresh ICEbreaker daemon before next run."
+  journal:
+    "Case 14 - St. Brigid Rail Chapel:\n- Entity answered to three names and none were human.\n- Seal held for 17 minutes, then cracked at the east transept.\n- Need two more witnesses before second attempt.",
+  idCard: {
+    photo: "Character Art/Carve.png",
+    name: "SISTER MIRIAM VALE",
+    xid: "X77031",
+    blsp: "VALE",
+    agdn: "HUMAN",
+    sex: "F",
+    height: "5'9\"",
+    weight: "142",
+    eyes: "GRAY",
+    hair: "BLACK",
+    rating: "I"
+  }
 };
 
 const FX_CLASS = {
@@ -110,7 +136,7 @@ function renderIdentity() {
   const list = document.getElementById("identityList");
   list.textContent = "";
 
-  characterSheet.identity.forEach(([label, value]) => {
+  exorcistSheet.identity.forEach(([label, value]) => {
     const row = document.createElement("div");
     const term = document.createElement("dt");
     const detail = document.createElement("dd");
@@ -121,43 +147,51 @@ function renderIdentity() {
   });
 }
 
-function renderSkills() {
-  const list = document.getElementById("skillsList");
+function renderRites() {
+  const list = document.getElementById("ritesList");
   list.textContent = "";
 
-  characterSheet.skills.forEach((skill) => {
+  exorcistSheet.rites.forEach((rite) => {
     const item = document.createElement("li");
     const head = document.createElement("div");
     const meter = document.createElement("span");
     const fill = document.createElement("i");
+    const cost = document.createElement("small");
 
     head.className = "skill-head";
-    head.innerHTML = `<span>${skill.name}</span><strong>${skill.level}</strong>`;
+    head.innerHTML = `<span>${rite.name}</span><strong>${rite.potency}%</strong>`;
 
     meter.className = "skill-meter";
-    fill.style.width = `${Math.min(100, skill.level * 10)}%`;
+    fill.style.width = `${Math.max(0, Math.min(100, rite.potency))}%`;
     meter.append(fill);
-    item.append(head, meter);
+
+    cost.textContent = `Cost: ${rite.cost}`;
+    cost.style.color = "var(--muted)";
+    cost.style.display = "block";
+    cost.style.marginTop = "0.3rem";
+    cost.style.fontSize = "0.72rem";
+
+    item.append(head, meter, cost);
     list.append(item);
   });
 }
 
-function renderWeapons() {
-  const list = document.getElementById("weaponsList");
+function renderArsenal() {
+  const list = document.getElementById("arsenalList");
   list.textContent = "";
 
-  characterSheet.weapons.forEach((weapon) => {
+  exorcistSheet.arsenal.forEach((entry) => {
     const item = document.createElement("li");
     const title = document.createElement("p");
     const meta = document.createElement("div");
 
     title.className = "weapon-title";
-    title.textContent = weapon.name;
+    title.textContent = entry.name;
 
     meta.className = "weapon-meta";
-    [weapon.damage, weapon.ammo, ...weapon.tags].forEach((entry) => {
+    [entry.detail, entry.capacity, ...entry.tags].forEach((value) => {
       const tag = document.createElement("span");
-      tag.textContent = entry;
+      tag.textContent = value;
       meta.append(tag);
     });
 
@@ -181,65 +215,82 @@ function renderHeatmap() {
   const grid = document.getElementById("heatmapGrid");
   grid.textContent = "";
 
-  characterSheet.heatmap.forEach((cell) => {
+  exorcistSheet.wardGrid.forEach((cell) => {
     const item = document.createElement("div");
-    item.className = `heat-cell heat-${Math.min(3, Math.max(1, cell.heat))}`;
+    const level = Math.max(1, Math.min(3, Number(cell.heat) || 1));
+    item.className = `heat-cell heat-${level}`;
     item.innerHTML = `<span>${cell.label}</span><em>${cell.value}</em>`;
     grid.append(item);
   });
 }
 
+function renderIdCard() {
+  const card = exorcistSheet.idCard;
+  document.getElementById("idPhoto").src = card.photo;
+  document.getElementById("idName").textContent = card.name;
+  document.getElementById("idXid").textContent = card.xid;
+  document.getElementById("idBlsp").textContent = card.blsp;
+  document.getElementById("idAgdn").textContent = card.agdn;
+  document.getElementById("idSex").textContent = card.sex;
+  document.getElementById("idHeight").textContent = card.height;
+  document.getElementById("idWeight").textContent = card.weight;
+  document.getElementById("idEyes").textContent = card.eyes;
+  document.getElementById("idHair").textContent = card.hair;
+  document.getElementById("idRating").textContent = card.rating;
+}
+
 function renderSheet() {
-  document.getElementById("characterName").textContent = characterSheet.name;
+  document.getElementById("characterName").textContent = exorcistSheet.name;
   document.getElementById("characterMeta").textContent =
-    `${characterSheet.role} // Street Rank ${characterSheet.rank} // ${characterSheet.city}`;
-  document.getElementById("threatLevel").textContent = `Threat: ${characterSheet.threatLevel}`;
-  document.getElementById("sheetStatus").textContent = `Sync: ${characterSheet.syncStatus}`;
+    `${exorcistSheet.rank} // ${exorcistSheet.diocese}`;
+  document.getElementById("threatLevel").textContent = exorcistSheet.threatLevel;
+  document.getElementById("sheetStatus").textContent = exorcistSheet.syncStatus;
 
-  document.getElementById("hpValue").textContent =
-    `${characterSheet.vitals.hp.current} / ${characterSheet.vitals.hp.max}`;
-  document.getElementById("stunValue").textContent =
-    `${characterSheet.vitals.stun.current} / ${characterSheet.vitals.stun.max}`;
-  document.getElementById("armorValue").textContent = `Armor ${characterSheet.vitals.armor}`;
-  document.getElementById("humanityValue").textContent = `Humanity ${characterSheet.vitals.humanity}`;
+  document.getElementById("healthValue").textContent =
+    `${exorcistSheet.vitals.health.current} / ${exorcistSheet.vitals.health.max}`;
+  document.getElementById("corruptionValue").textContent =
+    `${exorcistSheet.vitals.corruption.current} / ${exorcistSheet.vitals.corruption.max}`;
+  document.getElementById("wardsValue").textContent = `Wards ${exorcistSheet.vitals.wards}`;
+  document.getElementById("sanctityValue").textContent = `Sanctity ${exorcistSheet.vitals.sanctity}`;
   setMeter(
-    document.getElementById("hpMeter"),
-    characterSheet.vitals.hp.current,
-    characterSheet.vitals.hp.max
+    document.getElementById("healthMeter"),
+    exorcistSheet.vitals.health.current,
+    exorcistSheet.vitals.health.max
   );
   setMeter(
-    document.getElementById("stunMeter"),
-    characterSheet.vitals.stun.current,
-    characterSheet.vitals.stun.max
+    document.getElementById("corruptionMeter"),
+    exorcistSheet.vitals.corruption.current,
+    exorcistSheet.vitals.corruption.max
   );
 
-  document.getElementById("initiativeValue").textContent = String(characterSheet.combat.initiative);
-  document.getElementById("evasionValue").textContent = String(characterSheet.combat.evasion);
-  document.getElementById("deckLoadValue").textContent = `${characterSheet.combat.deckLoad}%`;
+  document.getElementById("reflexValue").textContent = String(exorcistSheet.response.reflex);
+  document.getElementById("resolveValue").textContent = String(exorcistSheet.response.resolve);
+  document.getElementById("riskValue").textContent = `${exorcistSheet.response.risk}%`;
 
   const conditionTags = document.getElementById("conditionTags");
   conditionTags.textContent = "";
-  characterSheet.combat.conditions.forEach((condition) => {
+  exorcistSheet.response.conditions.forEach((condition) => {
     const tag = document.createElement("span");
     tag.className = "tag";
     tag.textContent = condition;
     conditionTags.append(tag);
   });
 
+  renderIdCard();
   renderIdentity();
-  renderSkills();
-  renderWeapons();
-  renderSimpleList("tacticsList", characterSheet.tactics);
-  renderSimpleList("cyberwareList", characterSheet.cyberware);
+  renderSimpleList("traitsList", exorcistSheet.traits);
+  renderRites();
+  renderSimpleList("sanctionList", exorcistSheet.sanctions);
+  renderArsenal();
   renderHeatmap();
 
-  document.getElementById("sessionNotes").value = characterSheet.sessionNotes;
+  document.getElementById("sessionNotes").value = exorcistSheet.journal;
 }
 
 function updateOnlineStatus() {
   statusEl.textContent = navigator.onLine
-    ? "Online. Sheet data cached for offline use."
-    : "Offline mode. Using local cache.";
+    ? "Online. Relic logs synced to local cache."
+    : "Offline mode active. Operating from cached dossier.";
 }
 
 function supportsDistortionFilter() {
@@ -483,7 +534,7 @@ function setupPwaInstall() {
 
   window.addEventListener("appinstalled", () => {
     installBtn.disabled = true;
-    statusEl.textContent = "App installed. Launch from your device app drawer.";
+    statusEl.textContent = "PWA installed. Field dossier available on your home screen.";
   });
 }
 
@@ -494,7 +545,6 @@ if (typeof motionPreference.addEventListener === "function") {
 }
 
 document.addEventListener("visibilitychange", updateDistortionLoop);
-
 window.addEventListener("online", updateOnlineStatus);
 window.addEventListener("offline", updateOnlineStatus);
 

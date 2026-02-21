@@ -1,12 +1,12 @@
 {
-  "name": "CAIN Neon Sheet",
-  "short_name": "NeonSheet",
+  "name": "CAIN Exorcist Ledger",
+  "short_name": "Exorcist",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#04070d",
-  "theme_color": "#07121f",
-  "description": "Mobile-first cyberpunk TTRPG character sheet PWA scaffold.",
+  "background_color": "#0b0a0a",
+  "theme_color": "#0b0a0a",
+  "description": "Mobile-first modern horror TTRPG character sheet with integrated exorcist ID card.",
   "icons": [
     {
       "src": "./icons/icon.svg",

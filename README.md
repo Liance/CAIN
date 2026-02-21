@@ -1,27 +1,40 @@
-# CAIN Neon Sheet (PWA Scaffold)
+# CAIN Exorcist Ledger (PWA Scaffold)
 
-Mobile-first Progressive Web App scaffold for a cyberpunk TTRPG character sheet.
+Mobile-first Progressive Web App scaffold for a dark modern-horror TTRPG focused on exorcism dossiers.
 
-## What this template includes
+## Included in this version
 
-- Mobile-first character sheet layout with tabbed sections.
-- PWA install support (`manifest.webmanifest` + `sw.js`) for GitHub Pages hosting.
-- Offline app-shell caching.
-- Effect system for panel-specific overlays:
-  - `TV Static` (`fx-static`)
-  - `Scanlines` (`fx-scanlines`)
-  - `Glitch Shift` (`fx-glitch`)
-  - `Signal Warp` (`fx-distort`) for direct text/panel displacement
+- Full re-theme to modern horror + religious investigative tone.
+- Integrated Exorcist ID card in the Overview tab:
+  - Template source: `Templates/CAIN-Exorcist-ID-Card-Blank.png`
+  - Filled reference preview: `Examples/Comfort-ID.png`
+  - Dynamic field overlay + portrait injection from `app.js`
+- Effect system with targetable panel distortion:
+  - `none`, `static`, `scanlines`, `glitch`, `distort`
+- PWA install support and offline app-shell caching for GitHub Pages.
+
+## Requested fonts
+
+The stylesheet is configured to prefer these families:
+
+- `Acumin Pro`
+- `Cuasigothic`
+- `Apex Mk2`
+- `Fanzine`
+- `Odachi`
+
+`styles.css` uses local `@font-face` declarations (`src: local(...)`) and fallbacks.
+If these fonts are installed on-device they will be used automatically.
 
 ## Files
 
-- `index.html`: App shell and character sheet panels.
-- `styles.css`: Cyberpunk visual system + effect classes.
-- `app.js`: Data rendering, tabs, PWA install flow, and effect controls.
+- `index.html`: App shell, horror-themed layout, ID card composition.
+- `styles.css`: Theme, typography, responsive layout, effect classes.
+- `app.js`: Data rendering, ID card fill logic, effects API, PWA install flow.
 - `sw.js`: Offline caching service worker.
 - `manifest.webmanifest`: PWA metadata.
-- `icons/icon.svg`: App icon.
-- `.nojekyll`: Prevents GitHub Pages Jekyll processing.
+- `Templates/CAIN-Exorcist-ID-Card-Blank.png`: Blank ID card base.
+- `Examples/Comfort-ID.png`: Filled visual reference.
 
 ## Local run
 
@@ -33,16 +46,11 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000`.
 
-## Applying visual effects programmatically
-
-The app exposes a small API on `window.CAINFx`:
+## Effect API
 
 ```js
 window.CAINFx.listTargets();
-window.CAINFx.apply("skills", "static", 4);
-window.CAINFx.apply("weapons", "scanlines", 2);
-window.CAINFx.apply("hud", "distort", 5);
-window.CAINFx.clear("skills");
+window.CAINFx.apply("idcard", "distort", 4);
+window.CAINFx.apply("rites", "static", 3);
+window.CAINFx.clear("idcard");
 ```
-
-Accepted effect types: `none`, `static`, `scanlines`, `glitch`, `distort`.
