@@ -1,0 +1,18 @@
+{
+  "name": "CAIN PWA Starter",
+  "short_name": "CAIN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2efe8",
+  "theme_color": "#1f2a44",
+  "description": "A minimal Progressive Web App starter hosted on GitHub Pages.",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
