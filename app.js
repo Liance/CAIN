@@ -65,7 +65,8 @@ const FX_CLASS = {
   none: "",
   static: "fx-static",
   scanlines: "fx-scanlines",
-  glitch: "fx-glitch"
+  glitch: "fx-glitch",
+  distort: "fx-distort"
 };
 
 const statusEl = document.getElementById("status");
@@ -79,8 +80,13 @@ const fxIntensity = document.getElementById("fxIntensity");
 const fxIntensityValue = document.getElementById("fxIntensityValue");
 const applyFxBtn = document.getElementById("applyFxBtn");
 const clearFxBtn = document.getElementById("clearFxBtn");
+const fxDistortTurbulence = document.getElementById("fxDistortTurbulence");
+const fxDistortDisplace = document.getElementById("fxDistortDisplace");
+const fxDistortColor = document.getElementById("fxDistortColor");
 
 let deferredInstallPrompt = null;
+let distortionFrameId = null;
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 function activateTab(tabId) {
   tabButtons.forEach((button) => {
@@ -236,8 +242,97 @@ function updateOnlineStatus() {
     : "Offline mode. Using local cache.";
 }
 
+function supportsDistortionFilter() {
+  return Boolean(fxDistortTurbulence && fxDistortDisplace && fxDistortColor);
+}
+
+function getActiveDistortionIntensity() {
+  const active = fxTargets
+    .filter((target) => target.classList.contains("fx-distort"))
+    .map((target) => Number(target.dataset.fxIntensity || "2"))
+    .filter((value) => Number.isFinite(value));
+  if (!active.length) {
+    return 0;
+  }
+  return Math.max(...active);
+}
+
+function resetDistortionFilter() {
+  if (!supportsDistortionFilter()) {
+    return;
+  }
+  fxDistortTurbulence.setAttribute("baseFrequency", "0.010 0.028");
+  fxDistortTurbulence.setAttribute("numOctaves", "2");
+  fxDistortTurbulence.setAttribute("seed", "11");
+  fxDistortDisplace.setAttribute("scale", "10");
+  fxDistortColor.setAttribute("values", "1 0 0 0 0.02 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0");
+}
+
+function runDistortionFrame(timestamp) {
+  const intensity = getActiveDistortionIntensity();
+  const shouldRun =
+    supportsDistortionFilter() &&
+    intensity > 0 &&
+    !motionPreference.matches &&
+    !document.hidden;
+
+  if (!shouldRun) {
+    distortionFrameId = null;
+    resetDistortionFilter();
+    return;
+  }
+
+  const time = timestamp / 1000;
+  const baseX = 0.005 + intensity * 0.0011 + Math.abs(Math.sin(time * 1.7)) * 0.0018;
+  const baseY = 0.017 + intensity * 0.003 + Math.abs(Math.cos(time * 1.2)) * 0.0032;
+  fxDistortTurbulence.setAttribute("baseFrequency", `${baseX.toFixed(4)} ${baseY.toFixed(4)}`);
+  fxDistortTurbulence.setAttribute("numOctaves", String(Math.min(4, 2 + Math.round(intensity / 2))));
+  fxDistortTurbulence.setAttribute("seed", String((Math.floor(timestamp / 120) % 97) + 3));
+
+  const displaceScale = 6 + intensity * 6 + Math.abs(Math.sin(time * 6.1)) * 8;
+  fxDistortDisplace.setAttribute("scale", displaceScale.toFixed(2));
+
+  const redOffset = (Math.sin(time * 7.3) * 0.03).toFixed(3);
+  const blueOffset = (Math.cos(time * 5.1) * -0.03).toFixed(3);
+  fxDistortColor.setAttribute(
+    "values",
+    `1 0 0 0 ${redOffset} 0 1 0 0 0 0 0 1 0 ${blueOffset} 0 0 0 1 0`
+  );
+
+  distortionFrameId = window.requestAnimationFrame(runDistortionFrame);
+}
+
+function updateDistortionLoop() {
+  const shouldRun =
+    supportsDistortionFilter() &&
+    getActiveDistortionIntensity() > 0 &&
+    !motionPreference.matches &&
+    !document.hidden;
+
+  if (shouldRun && distortionFrameId === null) {
+    distortionFrameId = window.requestAnimationFrame(runDistortionFrame);
+    return;
+  }
+
+  if (!shouldRun && distortionFrameId !== null) {
+    window.cancelAnimationFrame(distortionFrameId);
+    distortionFrameId = null;
+    resetDistortionFilter();
+  }
+}
+
+function normalizeEffectType(effectType) {
+  if (!Object.prototype.hasOwnProperty.call(FX_CLASS, effectType)) {
+    return "none";
+  }
+  if (effectType === "distort" && !supportsDistortionFilter()) {
+    return "glitch";
+  }
+  return effectType;
+}
+
 function clearFxClasses(target) {
-  target.classList.remove("fx-static", "fx-scanlines", "fx-glitch");
+  target.classList.remove("fx-static", "fx-scanlines", "fx-glitch", "fx-distort");
 }
 
 function getTargetById(targetId) {
@@ -245,16 +340,20 @@ function getTargetById(targetId) {
 }
 
 function applyEffect(target, effectType, intensity) {
-  clearFxClasses(target);
-  target.style.setProperty("--fx-intensity", String(intensity));
+  const safeIntensity = Math.min(5, Math.max(1, Number(intensity) || 2));
+  const normalizedType = normalizeEffectType(effectType);
 
-  const fxClass = FX_CLASS[effectType];
+  clearFxClasses(target);
+  target.style.setProperty("--fx-intensity", String(safeIntensity));
+
+  const fxClass = FX_CLASS[normalizedType];
   if (fxClass) {
     target.classList.add(fxClass);
   }
 
-  target.dataset.fxType = effectType;
-  target.dataset.fxIntensity = String(intensity);
+  target.dataset.fxType = normalizedType;
+  target.dataset.fxIntensity = String(safeIntensity);
+  updateDistortionLoop();
 }
 
 function syncFxControls(target) {
@@ -269,6 +368,13 @@ function syncFxControls(target) {
 }
 
 function setupEffectsLab() {
+  const supportsDistort = supportsDistortionFilter();
+  const distortOption = fxTypeSelect.querySelector('option[value="distort"]');
+  if (!supportsDistort && distortOption) {
+    distortOption.disabled = true;
+    distortOption.textContent = "Signal Warp (Not Supported)";
+  }
+
   fxTargetSelect.textContent = "";
   fxTargets.forEach((target) => {
     if (!target.dataset.fxTarget) {
@@ -333,7 +439,7 @@ function setupEffectsLab() {
       if (!target || !Object.prototype.hasOwnProperty.call(FX_CLASS, effectType)) {
         return false;
       }
-      applyEffect(target, effectType, Math.min(5, Math.max(1, Number(intensity) || 2)));
+      applyEffect(target, effectType, intensity);
       return true;
     },
     clear(targetId) {
@@ -380,6 +486,14 @@ function setupPwaInstall() {
     statusEl.textContent = "App installed. Launch from your device app drawer.";
   });
 }
+
+if (typeof motionPreference.addEventListener === "function") {
+  motionPreference.addEventListener("change", updateDistortionLoop);
+} else if (typeof motionPreference.addListener === "function") {
+  motionPreference.addListener(updateDistortionLoop);
+}
+
+document.addEventListener("visibilitychange", updateDistortionLoop);
 
 window.addEventListener("online", updateOnlineStatus);
 window.addEventListener("offline", updateOnlineStatus);

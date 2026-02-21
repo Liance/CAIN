@@ -46,6 +46,12 @@ body {
   z-index: -1;
 }
 
+.fx-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
 .app-shell {
   width: min(100vw, 46rem);
   margin-inline: auto;
@@ -459,7 +465,7 @@ button:disabled {
   white-space: nowrap;
 }
 
-/* Effect system: add one of .fx-static / .fx-scanlines / .fx-glitch on .fx-target */
+/* Effect system: add one of .fx-static / .fx-scanlines / .fx-glitch / .fx-distort on .fx-target */
 .fx-target {
   --fx-intensity: 2;
 }
@@ -527,6 +533,30 @@ button:disabled {
     transparent 2px 6px
   );
   animation: glitch-flicker 0.35s steps(2, end) infinite;
+}
+
+.fx-distort {
+  filter:
+    url("#fx-distort-filter")
+    saturate(calc(1 + (var(--fx-intensity) * 0.1)))
+    contrast(calc(1 + (var(--fx-intensity) * 0.08)));
+  animation: distort-wobble 0.8s steps(2, end) infinite;
+}
+
+.fx-distort::before {
+  opacity: calc(0.05 + (var(--fx-intensity) * 0.03));
+  mix-blend-mode: screen;
+  background:
+    linear-gradient(90deg, rgba(255, 72, 140, 0.18), transparent 34%, rgba(34, 217, 255, 0.16) 68%, transparent 100%);
+  transform: translateX(-1px);
+  animation: distort-rgb 0.35s steps(2, end) infinite;
+}
+
+.fx-distort::after {
+  opacity: calc(0.07 + (var(--fx-intensity) * 0.025));
+  mix-blend-mode: soft-light;
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 3px);
 }
 
 @keyframes static-noise {
@@ -613,6 +643,33 @@ button:disabled {
   }
   60% {
     opacity: 0.08;
+  }
+}
+
+@keyframes distort-wobble {
+  0%,
+  76%,
+  100% {
+    transform: translate(0, 0);
+  }
+  78% {
+    transform: translate(-1px, 0);
+  }
+  82% {
+    transform: translate(1px, 0);
+  }
+  86% {
+    transform: translate(0, 1px);
+  }
+}
+
+@keyframes distort-rgb {
+  0%,
+  100% {
+    transform: translateX(-1px);
+  }
+  50% {
+    transform: translateX(1px);
   }
 }
 

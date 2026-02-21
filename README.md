@@ -11,6 +11,7 @@ Mobile-first Progressive Web App scaffold for a cyberpunk TTRPG character sheet.
   - `TV Static` (`fx-static`)
   - `Scanlines` (`fx-scanlines`)
   - `Glitch Shift` (`fx-glitch`)
+  - `Signal Warp` (`fx-distort`) for direct text/panel displacement
 
 ## Files
 
@@ -40,7 +41,8 @@ The app exposes a small API on `window.CAINFx`:
 window.CAINFx.listTargets();
 window.CAINFx.apply("skills", "static", 4);
 window.CAINFx.apply("weapons", "scanlines", 2);
+window.CAINFx.apply("hud", "distort", 5);
 window.CAINFx.clear("skills");
 ```
 
-Accepted effect types: `none`, `static`, `scanlines`, `glitch`.
+Accepted effect types: `none`, `static`, `scanlines`, `glitch`, `distort`.
